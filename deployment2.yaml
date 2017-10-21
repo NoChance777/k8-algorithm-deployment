@@ -1,7 +1,7 @@
 apiVersion: extensions/v1beta1
-kind: Pod
+kind: Deployment
 metadata:
-  name: algorithm-step3-2
+  name: algorithm-step3-1
 spec:
   replicas: 1
   template:
@@ -10,7 +10,7 @@ spec:
         app: alg-with-bucket
     spec:
       containers:
-      - name: "algorithm-step3-2"
+      - name: "algorithm-step3-1"
         image: "gcr.io/dulcet-coast-134823/alg:build-0"
         securityContext:
           privileged: true
@@ -26,9 +26,6 @@ spec:
             value: "/content"
           - name: FUSE_BUCKET_NAME
             value: "cloud-connector-alg"
-      - name: "node-app"
-        image: "gcr.io/dulcet-coast-134823/nodeapp:latest"
-
       #     - name: GOOGLE_APPLICATION_CREDENTIALS
       #       value: "/auth/storage-credentials.json"
       #   volumeMounts:
