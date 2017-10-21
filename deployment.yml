@@ -7,20 +7,20 @@ spec:
   template:
     metadata:
       labels:
-        app: algorithm-with-buckets
+        app: alg-with-buckets
     spec:
       containers:
         - name: "algorithm-step3"
-          image: gcr.io/some-repo/gcs-fuse:latest
+          image: gcr.io/dulcet-coast-134823/alg:build-0
           securityContext:
             privileged: true
             capabilities:
               add:
                 - SYS_ADMIN
           lifecycle:
-            postStart:
-              exec:
-                command: ["gcsfuse", "-o", "nonempty", "$FUSE_BUCKET_NAME", "$FUSE_MOUNT_DIR"]
+            #postStart:
+            #  exec:
+            #    command: ["gcsfuse", "-o", "nonempty", "$FUSE_BUCKET_NAME", "$FUSE_MOUNT_DIR"]
             preStop:
               exec:
                 command: ["fusermount", "-u", "$FUSE_MOUNT_DIR"]
