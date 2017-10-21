@@ -1,0 +1,31 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: algorithm-step3
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: algorithm-with-buckets
+    spec:
+      containers:
+        - name: "algorithm-step3"
+          image: gcr.io/some-repo/gcs-fuse:latest
+          securityContext:
+            privileged: true
+            capabilities:
+              add:
+                - SYS_ADMIN
+          lifecycle:
+            postStart:
+              exec:
+                command: ["gcsfuse", "-o", "nonempty", "$FUSE_BUCKET_NAME", "$FUSE_MOUNT_DIR"]
+            preStop:
+              exec:
+                command: ["fusermount", "-u", "$FUSE_MOUNT_DIR"]
+          env:
+            - name: FUSE_MOUNT_DIR
+              value: "/mnt/content"
+            - name: FUSE_BUCKET_NAME
+              value: "cloud-connector-alg"
