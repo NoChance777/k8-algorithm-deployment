@@ -1,0 +1,41 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: algorithm-step3-1
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: alg-with-bucket
+    spec:
+      containers:
+      - name: "algorithm-step3-1"
+        image: "gcr.io/dulcet-coast-134823/alg:build-0"
+        securityContext:
+          privileged: true
+          capabilities:
+            add:
+              - SYS_ADMIN
+        lifecycle:
+            preStop:
+              exec:
+                command: ["fusermount", "-u", "$FUSE_MOUNT_DIR"]
+        env:
+          - name: FUSE_MOUNT_DIR
+            value: "/content"
+          - name: FUSE_BUCKET_NAME
+            value: "cloud-connector-alg"
+      #     - name: GOOGLE_APPLICATION_CREDENTIALS
+      #       value: "/auth/storage-credentials.json"
+      #   volumeMounts:
+      #     - name: storage-credentials
+      #       mountPath: /auth
+      #       readOnly: true
+      # volumes:
+      #   - name: storage-credentials
+      #     secret:
+      #       secretName: storage-auth-credentials
+      #       items:
+      #         - key: credentials
+      #           path: storage-credentials.json     
