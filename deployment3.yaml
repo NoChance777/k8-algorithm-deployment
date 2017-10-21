@@ -10,7 +10,7 @@ spec:
     spec:
       containers:
       - name: "algorithm-step3-4"
-        image: "gcr.io/dulcet-coast-134823/alg:build-3"
+        image: "gcr.io/dulcet-coast-134823/alg:build-2"
         command: ['sh', '-c', 'bash /src/setup.sh']
         securityContext:
           privileged: true
