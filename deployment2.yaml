@@ -1,16 +1,15 @@
 apiVersion: extensions/v1beta1
-kind: Deployment
+kind: Job
 metadata:
-  name: algorithm-step3-1
+  name: algorithm-step3-3
 spec:
-  replicas: 1
   template:
     metadata:
       labels:
         app: alg-with-bucket
     spec:
       containers:
-      - name: "algorithm-step3-1"
+      - name: "algorithm-step3-3"
         image: "gcr.io/dulcet-coast-134823/alg:build-0"
         securityContext:
           privileged: true
@@ -18,12 +17,15 @@ spec:
             add:
               - SYS_ADMIN
         lifecycle:
+            postStart:
+              exec:
+                command: ["gcsfuse", "-o", "nonempty", "$FUSE_BUCKET_NAME", "$FUSE_MOUNT_DIR"]
             preStop:
               exec:
                 command: ["fusermount", "-u", "$FUSE_MOUNT_DIR"]
         env:
           - name: FUSE_MOUNT_DIR
-            value: "/content"
+            value: "/mnt/content"
           - name: FUSE_BUCKET_NAME
             value: "cloud-connector-alg"
       #     - name: GOOGLE_APPLICATION_CREDENTIALS
@@ -39,3 +41,4 @@ spec:
       #       items:
       #         - key: credentials
       #           path: storage-credentials.json     
+      restartPolicy: Never
