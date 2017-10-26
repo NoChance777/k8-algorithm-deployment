@@ -1,7 +1,7 @@
 apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
-  name: algorithm-step3-4
+  name: algorithm-step8
 spec:
   template:
     metadata:
@@ -9,8 +9,9 @@ spec:
         app: alg-with-bucket
     spec:
       containers:
-      - name: "algorithm-step3-4"
-        image: "gcr.io/dulcet-coast-134823/alg:build-2"
+      - name: "algorithm-step8"
+        image: "gcr.io/dulcet-coast-134823/alg:build-8"
+        imagePullPolicy: Always
         command: ['sh', '-c', 'bash /src/setup.sh']
         securityContext:
           privileged: true
@@ -27,8 +28,10 @@ spec:
         env:
           - name: FUSE_MOUNT_DIR
             value: "/mnt/content"
+          - name: ALG_DATA_DIR
+            value: "/mnt/content/.shared"
           - name: FUSE_BUCKET_NAME
-            value: "cloud-connector-alg"
+            value: "cloud-connector-app"
       #     - name: GOOGLE_APPLICATION_CREDENTIALS
       #       value: "/auth/storage-credentials.json"
       #   volumeMounts:
@@ -42,4 +45,3 @@ spec:
       #       items:
       #         - key: credentials
       #           path: storage-credentials.json     
-      restartPolicy: Never
