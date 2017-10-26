@@ -14,7 +14,7 @@ spec:
             secretName: storage-auth-credentials
       containers:
       - name: "algorithm-sample-main"
-        image: "gcr.io/dulcet-coast-134823/alg:build-8"
+        image: "gcr.io/dulcet-coast-134823/alg:build-9"
         imagePullPolicy: Always
         command: ['sh', '-c', 'bash /src/setup.sh']
         securityContext:
